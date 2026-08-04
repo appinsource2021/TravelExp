@@ -17,7 +17,7 @@
       "bundleIdentifier": "com.appinsource.travelexpenses",
       "infoPlist": {
         "NSAppTransportSecurity": {
-          "NSAllowsArbitraryLoads": true
+          "NSAllowsLocalNetworking": true
         }
       }
     },
