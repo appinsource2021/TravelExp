@@ -7,7 +7,7 @@
       "developmentClient": true,
       "distribution": "internal",
       "env": {
-        "EXPO_PUBLIC_API_URL": "http://217.160.215.57:8055/api"
+        "EXPO_PUBLIC_API_URL": "http://217.160.215.57/api"
       },
       "ios": {
         "simulator": false
@@ -16,7 +16,7 @@
     "preview": {
       "distribution": "internal",
       "env": {
-        "EXPO_PUBLIC_API_URL": "http://217.160.215.57:8055/api"
+        "EXPO_PUBLIC_API_URL": "http://217.160.215.57/api"
       },
       "android": {
         "buildType": "apk"

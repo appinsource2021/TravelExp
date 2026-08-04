@@ -59,6 +59,11 @@ export function ScannerScreen({ deviceUUID, onNavigate, onSocketId }: Props) {
       const json = await res.json()
       setScanning(false)
       setLoading(false)
+      if (!res.ok) {
+        // Sunucu QR oturumunu tanımadı (ör. süresi doldu ya da başka bir sunucuya bağlıyız)
+        Alert.alert('Giriş Başarısız', json.error ?? `Sunucu ${res.status} döndü.\nURL: ${API_URL}`)
+        return
+      }
       // Bu QR oturumu e-posta doğrulaması ve kayıt adımlarında da lazım
       onSocketId(data)
       if (json.registered === false) {
