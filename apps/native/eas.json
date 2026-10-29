@@ -7,7 +7,7 @@
       "developmentClient": true,
       "distribution": "internal",
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://upbeat-margulis.217-160-215-57.plesk.page/api"
+        "EXPO_PUBLIC_API_URL": "https://travel.romon-mcp.com/api"
       },
       "ios": {
         "simulator": false
@@ -16,7 +16,7 @@
     "preview": {
       "distribution": "internal",
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://upbeat-margulis.217-160-215-57.plesk.page/api"
+        "EXPO_PUBLIC_API_URL": "https://travel.romon-mcp.com/api"
       },
       "android": {
         "buildType": "apk"
