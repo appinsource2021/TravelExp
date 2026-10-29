@@ -25,6 +25,11 @@
         "resourceClass": "m-medium"
       }
     },
+    "ios-unsigned": {
+      "extends": "preview",
+      "withoutCredentials": true,
+      "config": "ios-unsigned.yml"
+    },
     "production": {
       "autoIncrement": true
     }
