@@ -1,0 +1,29 @@
+# Gizli bilgiler
+.env
+.env.*
+!.env.example
+
+# SSL sertifikalari ve ozel anahtarlar
+certbot/
+*.pem
+*.key
+*.p12
+*.jks
+*.keystore
+
+# Bagimliliklar ve build ciktilari
+node_modules/
+dist/
+build/
+.expo/
+.eas/
+
+# IDE / yerel ayarlar
+.idea/
+.vscode/
+.claude/settings.local.json
+
+# Yedekler ve loglar
+*.bak-*
+*.log
+.DS_Store

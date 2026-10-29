@@ -1,0 +1,64 @@
+version: '3.9'
+
+services:
+  mongo:
+    image: mongo:7
+    container_name: travelexpenses_mongo
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+      - ./services/mongo/init.js:/docker-entrypoint-initdb.d/init.js:ro
+    environment:
+      MONGO_INITDB_DATABASE: travelexpenses
+
+  node:
+    build:
+      context: ./services/node
+      dockerfile: Dockerfile
+    container_name: travelexpenses_node
+    restart: unless-stopped
+    ports:
+      - '3007:3007'
+    # Sırlar .env'de; bu dosya git'e girebilsin diye buraya yazılmıyor.
+    # .env sunucuda üretilir, deploy.sh onu hariç tutar.
+    env_file:
+      - .env
+    environment:
+      PORT: 3007
+      MONGO_URI: mongodb://mongo:27017/travelexpenses
+    depends_on:
+      - mongo
+
+  desktop:
+    image: nginx:alpine
+    container_name: travelexpenses_desktop
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+      - '8055:80'
+    volumes:
+      - ./apps/desktop/dist:/usr/share/nginx/html:ro
+      - ./apps/desktop/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./apps/desktop/conf.d/reisekosten.appinsource.eu.conf:/etc/nginx/conf.d/reisekosten.appinsource.eu.conf:ro
+      - ./apps/desktop/conf.d/mcp.appinsource.eu.conf:/etc/nginx/conf.d/mcp.appinsource.eu.conf:ro
+      - ./certbot/www:/var/www/certbot:ro
+      - ./certbot/conf:/etc/letsencrypt:ro
+    extra_hosts:
+      # Konteynerden host'taki Vite dev server'a (:5173) erişim
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      - node
+    networks:
+      - default
+      - mcp_edge
+
+networks:
+  # mcp-dev-server'in (compose projesi "mcp") edge agi. Proxy uygulamaya
+  # buradan ulasir; uygulama portunu yalnizca 127.0.0.1'e yayinladigi icin
+  # host.docker.internal ise yaramiyor. Bu proje agi OLUSTURMAZ, var olana baglanir.
+  mcp_edge:
+    external: true
+
+volumes:
+  mongo_data:
