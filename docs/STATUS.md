@@ -17,4 +17,8 @@
   the old Mongo restored into the project's database, the test server started, the address published publicly.
 
 ## Known problems
-- The database made at import is PostgreSQL (chosen by the name), the code uses MongoDB; see Open work.
+- The database made at import is PostgreSQL (chosen by the name), the code uses MongoDB; see Open work. Until then the
+  test server does not start: `start-platform.sh` refuses a non-MongoDB address and says so (2026-10-30).
+- The platform's GitHub App is not connected yet: the commits made here (serve.mjs, start-platform.sh, these notes) were
+  pushed to github.com/appinsource2021/TravelExp by hand on 2026-10-30. The server is to be set up again; the project
+  comes back with a new import, which now picks MongoDB from the code.

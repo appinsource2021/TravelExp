@@ -12,9 +12,16 @@ API_PORT="${API_PORT:-3007}"
 set -a
 . ./.env
 set +a
-# The API reads MONGO_URI; the platform writes MONGODB_URI / DATABASE_URL.
+# The API reads MONGO_URI; the platform writes MONGODB_URI / DATABASE_URL. Only a MongoDB address counts: with another
+# database in .env (30.10: the PostgreSQL one made at the import) the web server came up, the API died on the address a
+# moment later and the test server showed "running" for a few seconds. Now it does not start and says why (the scheme
+# only, never the address: it holds the password).
 export MONGO_URI="${MONGO_URI:-${MONGODB_URI:-${DATABASE_URL:-}}}"
-[ -n "$MONGO_URI" ] || { echo "start-platform: no MongoDB in .env (MONGODB_URI)" >&2; exit 1; }
+case "$MONGO_URI" in
+  mongodb://*|mongodb+srv://*) ;;
+  '') echo "start-platform: no MongoDB in .env (MONGODB_URI). The project's database must be MongoDB: project_add_database mongodb, replace=true while the current one is empty." >&2; exit 1 ;;
+  *) echo "start-platform: the database in .env is ${MONGO_URI%%:*}, not MongoDB. The project's database must be MongoDB: project_add_database mongodb, replace=true while the current one is empty." >&2; exit 1 ;;
+esac
 
 newer() { [ -n "$(find "$@" -newer "$TARGET" -print -quit 2>/dev/null)" ]; }
 
